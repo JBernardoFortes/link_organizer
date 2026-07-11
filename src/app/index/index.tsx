@@ -6,7 +6,7 @@ import { styles } from "./styles";
 export default function Index() {
   return (
     <SafeAreaProvider style={{ flex: 1 }}>
-      <SafeAreaView>
+      <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Hello React Native</Text>
       </SafeAreaView>
     </SafeAreaProvider>
