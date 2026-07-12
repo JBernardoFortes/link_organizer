@@ -1,4 +1,3 @@
-import { colors } from "@/styles/colors";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
@@ -8,8 +7,7 @@ export const styles = StyleSheet.create({
     gap: 5,
   },
   name: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 600,
-    color: colors.gray[400],
   },
 });

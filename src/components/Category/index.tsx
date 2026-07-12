@@ -6,13 +6,16 @@ import { styles } from "./styles";
 interface Props extends PressableProps {
   icon: keyof typeof MaterialIcons.glyphMap;
   name: string;
+  isSelected: boolean;
 }
 
-export function Category({ icon, name, ...rest }: Props) {
+export function Category({ icon, name, isSelected, ...rest }: Props) {
+  const color = isSelected ? colors.green[300] : colors.gray[400];
+
   return (
     <Pressable style={styles.container} {...rest}>
-      <MaterialIcons name={icon} size={16} color={colors.gray[400]} />
-      <Text style={styles.name}>{name}</Text>
+      <MaterialIcons name={icon} size={16} color={color} />
+      <Text style={[styles.name, { color }]}>{name}</Text>
     </Pressable>
   );
 }
