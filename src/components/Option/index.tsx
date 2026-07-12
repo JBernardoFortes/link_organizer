@@ -1,7 +1,7 @@
-import { MaterialIcons } from "@expo/vector-icons";
-import { TouchableOpacity, TouchableOpacityProps, Text } from "react-native";
-import { styles } from "./styles";
 import { colors } from "@/styles/colors";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { styles } from "./styles";
 
 interface Props extends TouchableOpacityProps {
   name: string;
