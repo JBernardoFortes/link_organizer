@@ -8,7 +8,7 @@ export function CategoryList() {
     <FlatList
       data={categories}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <Category {...item} isSelected />}
+      renderItem={({ item }) => <Category {...item} isSelected={false} />}
       horizontal
       style={styles.container}
       contentContainerStyle={styles.content}
