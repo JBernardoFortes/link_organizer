@@ -1,5 +1,5 @@
 // Ponto de entrada da aplicacao
-import { Category } from "@/components/Category";
+import { CategoryList } from "@/components/CategoryList";
 import { colors } from "@/styles/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Image, TouchableOpacity, View } from "react-native";
@@ -24,9 +24,7 @@ export default function Index() {
             ></MaterialIcons>
           </TouchableOpacity>
         </View>
-        <Category icon="code" name="Projetos" />
-        <Category icon="language" name="Sites" />
-        <Category icon="movie" name="Videos" />
+        <CategoryList></CategoryList>
       </SafeAreaView>
     </SafeAreaProvider>
   );
