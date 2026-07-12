@@ -24,7 +24,9 @@ export default function Index() {
             ></MaterialIcons>
           </TouchableOpacity>
         </View>
-        <Category />
+        <Category icon="code" name="Projetos" />
+        <Category icon="language" name="Sites" />
+        <Category icon="movie" name="Videos" />
       </SafeAreaView>
     </SafeAreaProvider>
   );
