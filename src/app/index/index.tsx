@@ -1,9 +1,17 @@
 // Ponto de entrada da aplicacao
 import { CategoryList } from "@/components/CategoryList";
 import { Link } from "@/components/Link";
+import { Option } from "@/components/Option";
 import { colors } from "@/styles/colors";
 import { MaterialIcons } from "@expo/vector-icons";
-import { FlatList, Image, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  Modal,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
 
@@ -41,6 +49,31 @@ export default function Index() {
           contentContainerStyle={styles.linksContent}
           showsVerticalScrollIndicator={false}
         />
+
+        <Modal transparent visible={true}>
+          <View style={styles.modal}>
+            <View style={styles.modalContent}>
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalCategory}>Curso</Text>
+                <TouchableOpacity>
+                  <MaterialIcons
+                    name="close"
+                    size={20}
+                    color={colors.gray[400]}
+                  ></MaterialIcons>
+                </TouchableOpacity>
+              </View>
+
+              <Text style={styles.modalLinkName}> Google </Text>
+              <Text style={styles.modalUrl}> https://google.com.br</Text>
+
+              <View style={styles.modalFooter}>
+                <Option name="Excluir" icon="delete" variant="secondary" />
+                <Option name="Abrir" icon="language" />
+              </View>
+            </View>
+          </View>
+        </Modal>
       </SafeAreaView>
     </SafeAreaProvider>
   );
