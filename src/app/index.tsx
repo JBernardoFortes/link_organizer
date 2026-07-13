@@ -2,41 +2,42 @@
 import { CategoryList } from "@/components/CategoryList";
 import { Link } from "@/components/Link";
 import { Option } from "@/components/Option";
+import { linkStorage, LinkStorage } from "@/storage/link-storage";
 import { colors } from "@/styles/colors";
 import { categories } from "@/utils/categories";
 import { MaterialIcons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import { useState, useEffect } from "react";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import {
+  Alert,
   FlatList,
   Image,
   Modal,
   Text,
-  Alert,
   TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./index/styles";
-import {linkStorage, LinkStorage} from "@/storage/link-storage";
 
 export default function Index() {
   const [links, setLinks] = useState<LinkStorage[]>([]);
   const [category, setCategory] = useState<string>(categories[0]?.name);
-  
 
-  const fetchLinks = async () => { 
+  const fetchLinks = async () => {
     try {
       const response = await linkStorage.getLinks();
       setLinks(response);
-    } catch ( error ) { 
-      Alert.alert("Erro", "Não foi possível carregar os links")
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível carregar os links");
     }
-  }
-  
-  useEffect(() => {
-    fetchLinks();
-  }, []);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchLinks();
+    }, []),
+  );
 
   return (
     <SafeAreaProvider style={{ flex: 1 }}>
@@ -64,11 +65,7 @@ export default function Index() {
           data={links}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <Link
-              name={item.name}
-              url={item.url}
-              onDetails={() => {}}
-            />
+            <Link name={item.name} url={item.url} onDetails={() => {}} />
           )}
           style={styles.links}
           contentContainerStyle={styles.linksContent}
