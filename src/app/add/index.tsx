@@ -1,9 +1,11 @@
+import { Button } from "@/components/Button";
+import { CategoryList } from "@/components/CategoryList";
+import { Input } from "@/components/Input";
 import { colors } from "@/styles/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
-import { categories } from "@/utils/categories";
 
 export default function Add() {
   return (
@@ -19,6 +21,13 @@ export default function Add() {
         <Text style={styles.title}> Novo </Text>
       </View>
       <Text style={styles.label}>Selecione uma categoria</Text>
+      <CategoryList></CategoryList>
+
+      <View style={styles.form}>
+        <Input placeholder="name" />
+        <Input placeholder="url" />
+        <Button title="Adicionar"></Button>
+      </View>
     </View>
   );
 }
