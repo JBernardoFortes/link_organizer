@@ -6,20 +6,37 @@ import { colors } from "@/styles/colors";
 import { categories } from "@/utils/categories";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   FlatList,
   Image,
   Modal,
   Text,
+  Alert,
   TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./index/styles";
+import {linkStorage, LinkStorage} from "@/storage/link-storage";
 
 export default function Index() {
+  const [links, setLinks] = useState<LinkStorage[]>([]);
   const [category, setCategory] = useState<string>(categories[0]?.name);
+  
+
+  const fetchLinks = async () => { 
+    try {
+      const response = await linkStorage.getLinks();
+      setLinks(response);
+    } catch ( error ) { 
+      Alert.alert("Erro", "Não foi possível carregar os links")
+    }
+  }
+  
+  useEffect(() => {
+    fetchLinks();
+  }, []);
 
   return (
     <SafeAreaProvider style={{ flex: 1 }}>
@@ -44,12 +61,12 @@ export default function Index() {
         ></CategoryList>
 
         <FlatList
-          data={["1", "2", "3"]}
-          keyExtractor={(item) => item}
+          data={links}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Link
-              name="Google"
-              url="https://google.com.br"
+              name={item.name}
+              url={item.url}
               onDetails={() => {}}
             />
           )}
