@@ -7,6 +7,7 @@ import { router } from "expo-router";
 import { useState } from "react";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
+import { linkStorage } from "@/storage/link-storage";
 
 export default function Add() {
   const [name, setName] = useState<string>("");
@@ -16,18 +17,31 @@ export default function Add() {
   const handleChangeName = (text: string) => setName(text);
   const handleChangeUrl = (text: string) => setUrl(text);
 
-  const handleAdd = () => {
-    if (!category) {
-      return Alert.alert("Categoria", "Selecione uma categoria");
+  const handleAdd = async () => {
+    try {
+      if (!category) {
+        return Alert.alert("Categoria", "Selecione uma categoria");
+      }
+      if (!url.trim()) {
+        return Alert.alert("URL", "Informe uma URL");
+      }
+      if (!name.trim()) {
+        return Alert.alert("Name", "Informe um nome");
+      }
+
+      await linkStorage.saveLink({
+        id: new Date().getTime().toString(),
+        name,
+        url,
+        category,
+      });
+
+      router.back();
+      console.log(await linkStorage.getLinks());
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível adicionar o link");
+      console.log(error);
     }
-    if (!url.trim()) {
-      return Alert.alert("URL", "Informe uma URL");
-    }
-    if (!name.trim()) {
-      return Alert.alert("Name", "Informe um nome");
-    }
-    console.log(name);
-    console.log(url);
   };
 
   return (
@@ -50,7 +64,7 @@ export default function Add() {
 
       <View style={styles.form}>
         <Input placeholder="Name" onChangeText={handleChangeName} />
-        <Input placeholder="URL" onChangeText={handleChangeUrl} />
+        <Input placeholder="URL" onChangeText={handleChangeUrl} autoCapitalize="none" />
         <Button title="Adicionar" onPress={handleAdd}></Button>
       </View>
     </View>
