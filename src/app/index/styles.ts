@@ -40,7 +40,6 @@ export const styles = StyleSheet.create({
   modal: {
     flex: 1,
     justifyContent: "flex-end",
-    backgroundColor: colors.gray["transparent"],
   },
   modalHeader: {
     width: "100%",

@@ -13,6 +13,7 @@ import {
   FlatList,
   Image,
   Modal,
+  Pressable,
   Text,
   TouchableOpacity,
   View,
@@ -21,8 +22,12 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./index/styles";
 
 export default function Index() {
+  const [showModal, setShowModal] = useState(false);
   const [links, setLinks] = useState<LinkStorage[]>([]);
   const [category, setCategory] = useState<string>(categories[0]?.name);
+  const [selectedLink, setSelectedLink] = useState<LinkStorage>(
+    {} as LinkStorage,
+  );
 
   const fetchLinks = async () => {
     try {
@@ -34,6 +39,11 @@ export default function Index() {
     } catch (error) {
       Alert.alert("Erro", "Não foi possível carregar os links");
     }
+  };
+
+  const handleDetails = (selected: LinkStorage) => {
+    setShowModal(true);
+    setSelectedLink(selected);
   };
 
   useFocusEffect(
@@ -68,19 +78,28 @@ export default function Index() {
           data={links}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <Link name={item.name} url={item.url} onDetails={() => {}} />
+            <Link
+              name={item.name}
+              url={item.url}
+              onDetails={() => handleDetails(item)}
+            />
           )}
           style={styles.links}
           contentContainerStyle={styles.linksContent}
           showsVerticalScrollIndicator={false}
         />
 
-        <Modal transparent visible={false}>
-          <View style={styles.modal}>
+        <Modal
+          transparent
+          visible={showModal}
+          animationType="slide"
+          onRequestClose={() => setShowModal(false)}
+        >
+          <Pressable style={styles.modal} onPress={() => setShowModal(false)}>
             <View style={styles.modalContent}>
               <View style={styles.modalHeader}>
                 <Text style={styles.modalCategory}>Curso</Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => setShowModal(false)}>
                   <MaterialIcons
                     name="close"
                     size={20}
@@ -89,15 +108,15 @@ export default function Index() {
                 </TouchableOpacity>
               </View>
 
-              <Text style={styles.modalLinkName}> Google </Text>
-              <Text style={styles.modalUrl}> https://google.com.br</Text>
+              <Text style={styles.modalLinkName}> {selectedLink.name} </Text>
+              <Text style={styles.modalUrl}> {selectedLink.url}</Text>
 
               <View style={styles.modalFooter}>
                 <Option name="Excluir" icon="delete" variant="secondary" />
                 <Option name="Abrir" icon="language" />
               </View>
             </View>
-          </View>
+          </Pressable>
         </Modal>
       </SafeAreaView>
     </SafeAreaProvider>
