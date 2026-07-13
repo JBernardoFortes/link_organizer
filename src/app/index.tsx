@@ -3,8 +3,10 @@ import { CategoryList } from "@/components/CategoryList";
 import { Link } from "@/components/Link";
 import { Option } from "@/components/Option";
 import { colors } from "@/styles/colors";
+import { categories } from "@/utils/categories";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { useState } from "react";
 import {
   FlatList,
   Image,
@@ -17,6 +19,8 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./index/styles";
 
 export default function Index() {
+  const [category, setCategory] = useState<string>(categories[0]?.name);
+
   return (
     <SafeAreaProvider style={{ flex: 1 }}>
       <SafeAreaView style={styles.container}>
@@ -34,7 +38,10 @@ export default function Index() {
             ></MaterialIcons>
           </TouchableOpacity>
         </View>
-        <CategoryList></CategoryList>
+        <CategoryList
+          onChangeCategory={setCategory}
+          selected={category}
+        ></CategoryList>
 
         <FlatList
           data={["1", "2", "3"]}
