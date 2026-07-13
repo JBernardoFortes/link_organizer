@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LINK_STORAGE_KEY = "links-storage";
 
-interface LinkStorage {
+export interface LinkStorage {
   id: string;
   name: string;
   url: string;
