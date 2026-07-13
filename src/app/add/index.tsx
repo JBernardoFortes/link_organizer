@@ -37,7 +37,6 @@ export default function Add() {
       });
 
       router.back();
-      console.log(await linkStorage.getLinks());
     } catch (error) {
       Alert.alert("Erro", "Não foi possível adicionar o link");
       console.log(error);
