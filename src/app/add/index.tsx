@@ -1,13 +1,13 @@
 import { Button } from "@/components/Button";
 import { CategoryList } from "@/components/CategoryList";
 import { Input } from "@/components/Input";
+import { linkStorage } from "@/storage/link-storage";
 import { colors } from "@/styles/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
-import { linkStorage } from "@/storage/link-storage";
 
 export default function Add() {
   const [name, setName] = useState<string>("");
@@ -36,7 +36,14 @@ export default function Add() {
         category,
       });
 
-      router.back();
+      Alert.alert("Sucesso", "Link adicionado com sucesso", [
+        {
+          text: "Ok",
+          onPress: () => {
+            router.back();
+          },
+        },
+      ]);
     } catch (error) {
       Alert.alert("Erro", "Não foi possível adicionar o link");
       console.log(error);
@@ -63,7 +70,11 @@ export default function Add() {
 
       <View style={styles.form}>
         <Input placeholder="Name" onChangeText={handleChangeName} />
-        <Input placeholder="URL" onChangeText={handleChangeUrl} autoCapitalize="none" />
+        <Input
+          placeholder="URL"
+          onChangeText={handleChangeUrl}
+          autoCapitalize="none"
+        />
         <Button title="Adicionar" onPress={handleAdd}></Button>
       </View>
     </View>
