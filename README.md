@@ -1,3 +1,3 @@
 # link_organizer
 
-<img src="https://imgur.com/a/x9bhPej" />
+![Screenshot do projeto](https://i.imgur.com/x9bhPej.png)
