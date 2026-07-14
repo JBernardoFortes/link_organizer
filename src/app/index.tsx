@@ -12,6 +12,7 @@ import {
   Alert,
   FlatList,
   Image,
+  Linking,
   Modal,
   Pressable,
   Text,
@@ -44,6 +45,37 @@ export default function Index() {
   const handleDetails = (selected: LinkStorage) => {
     setShowModal(true);
     setSelectedLink(selected);
+  };
+
+  const linkRemove = async () => {
+    try {
+      await linkStorage.removeLink(selectedLink.id);
+      fetchLinks();
+      setShowModal(false);
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível excluir o link");
+    }
+  };
+
+  const handleRemove = async () => {
+    Alert.alert("Excluir", "Deseja realmente excluir esse link?", [
+      { style: "cancel", text: "Não" },
+      {
+        text: "Sim",
+        onPress: async () => {
+          linkRemove();
+        },
+      },
+    ]);
+  };
+
+  const handleOpen = async () => {
+    try {
+      await Linking.openURL(selectedLink.url);
+    } catch (error) {
+      Alert.alert("Erro", "Nao foi possivel abrir o link");
+      console.log(error);
+    }
   };
 
   useFocusEffect(
@@ -95,28 +127,41 @@ export default function Index() {
           animationType="slide"
           onRequestClose={() => setShowModal(false)}
         >
-          <Pressable style={styles.modal} onPress={() => setShowModal(false)}>
-            <View style={styles.modalContent}>
-              <View style={styles.modalHeader}>
-                <Text style={styles.modalCategory}>Curso</Text>
-                <TouchableOpacity onPress={() => setShowModal(false)}>
-                  <MaterialIcons
-                    name="close"
-                    size={20}
-                    color={colors.gray[400]}
-                  ></MaterialIcons>
-                </TouchableOpacity>
-              </View>
-
-              <Text style={styles.modalLinkName}> {selectedLink.name} </Text>
-              <Text style={styles.modalUrl}> {selectedLink.url}</Text>
-
-              <View style={styles.modalFooter}>
-                <Option name="Excluir" icon="delete" variant="secondary" />
-                <Option name="Abrir" icon="language" />
-              </View>
+          <Pressable
+            style={styles.modal}
+            onPress={() => setShowModal(false)}
+          ></Pressable>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalCategory}>Curso</Text>
+              <TouchableOpacity onPress={() => setShowModal(false)}>
+                <MaterialIcons
+                  name="close"
+                  size={20}
+                  color={colors.gray[400]}
+                ></MaterialIcons>
+              </TouchableOpacity>
             </View>
-          </Pressable>
+
+            <Text style={styles.modalLinkName}> {selectedLink.name} </Text>
+            <Text style={styles.modalUrl}> {selectedLink.url}</Text>
+
+            <View style={styles.modalFooter}>
+              <Option
+                name="Excluir"
+                icon="delete"
+                variant="secondary"
+                onPress={() => {
+                  handleRemove();
+                }}
+              />
+              <Option
+                name="Abrir"
+                icon="language"
+                onPress={() => handleOpen()}
+              />
+            </View>
+          </View>
         </Modal>
       </SafeAreaView>
     </SafeAreaProvider>
